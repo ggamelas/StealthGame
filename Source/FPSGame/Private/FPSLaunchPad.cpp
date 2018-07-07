@@ -35,11 +35,15 @@ AFPSLaunchPad::AFPSLaunchPad()
 void AFPSLaunchPad::OverlapBox(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
 	AFPSCharacter* Character = Cast<AFPSCharacter>(OtherActor);
-	if (Character)
+	if(Character || (OtherComp && OtherComp->IsSimulatingPhysics()))
 	{
+		FVector LaunchVector = UKismetMathLibrary::GetForwardVector(JumpDirection->GetComponentTransform().Rotator()) * JumpPower;
 		UGameplayStatics::SpawnEmitterAtLocation(this, LaunchFX, GetActorLocation());
-		FVector ForwardVector = UKismetMathLibrary::GetForwardVector(JumpDirection->GetComponentTransform().Rotator());
-		Character->LaunchCharacter(ForwardVector * JumpPower, true, true);
+
+		if (Character)
+			Character->LaunchCharacter(LaunchVector , true, true);
+		else 
+			OtherComp->AddImpulse(LaunchVector, NAME_None, true);
 	}
 }
 
