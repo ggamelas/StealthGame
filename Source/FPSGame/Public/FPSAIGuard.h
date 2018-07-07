@@ -26,7 +26,10 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-	void OnPawnSeen(APawn* SeenPawn);
+	void OnPawnSeen(APawn *SeenPawn);
+
+	UFUNCTION()
+	void OnNoiseHeard(APawn *NoiseInstigator, const FVector &Location, float Volume);
 
 public:	
 	// Called every frame
