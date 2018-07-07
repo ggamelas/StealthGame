@@ -7,7 +7,6 @@
 #include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "Kismet/KismetMathLibrary.h"
 
 
 // Sets default values
@@ -37,7 +36,7 @@ void AFPSLaunchPad::OverlapBox(class UPrimitiveComponent* HitComp, class AActor*
 	AFPSCharacter* Character = Cast<AFPSCharacter>(OtherActor);
 	if(Character || (OtherComp && OtherComp->IsSimulatingPhysics()))
 	{
-		FVector LaunchVector = UKismetMathLibrary::GetForwardVector(JumpDirection->GetComponentTransform().Rotator()) * JumpPower;
+		FVector LaunchVector = JumpDirection->GetComponentTransform().Rotator().Vector() * JumpPower;
 		UGameplayStatics::SpawnEmitterAtLocation(this, LaunchFX, GetActorLocation());
 
 		if (Character)
