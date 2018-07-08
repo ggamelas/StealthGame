@@ -86,3 +86,4 @@ void AFPSAIGuard::Tick(float DeltaTime)
 
 }
 
+// AddMovementInput(GetActorForwardVector(), Value);
